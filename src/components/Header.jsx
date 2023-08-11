@@ -7,13 +7,14 @@ export const Header = ({
     setBudget,
     isValidBudget,
     setIsValidBudget,
+    expenses,
 }) => {
     return (
         <header>
             <h1>Planificador de Gastos</h1>
 
             {isValidBudget ? (
-                <BudgetControl budget={budget} />
+                <BudgetControl budget={budget} expenses={expenses} />
             ) : (
                 <NewBudget
                     budget={budget}
@@ -30,4 +31,5 @@ Header.propTypes = {
     setBudget: PropTypes.func.isRequired,
     isValidBudget: PropTypes.bool.isRequired,
     setIsValidBudget: PropTypes.func.isRequired,
+    expenses: PropTypes.array.isRequired,
 };
