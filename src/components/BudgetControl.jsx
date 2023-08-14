@@ -1,9 +1,15 @@
 import { PropTypes } from 'prop-types';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 export const BudgetControl = ({ budget, expenses }) => {
     const [available, setAvailable] = useState(0);
     const [spent, setSpent] = useState(0);
+
+    const percentage = useMemo(() => {
+        return Math.round((spent / budget) * 100);
+    }, [budget, spent]);
 
     const formatter = (amount) => {
         return amount.toLocaleString('en-US', {
@@ -21,7 +27,10 @@ export const BudgetControl = ({ budget, expenses }) => {
     return (
         <div className="contenedor-presupuesto contenedor sombra dos-columnas">
             <div className="">
-                <p>grafica</p>
+                <CircularProgressbar
+                    value={percentage}
+                    text={`${percentage}%`}
+                />
             </div>
 
             <div className="contenido-presupuesto">
