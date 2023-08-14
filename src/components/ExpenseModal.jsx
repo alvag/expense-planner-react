@@ -1,14 +1,22 @@
 import { PropTypes } from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import IconClose from '../assets/img/cerrar.svg';
 import { Message } from './Message';
 
-export const ExpenseModal = ({ handleNewExpense, animateModal }) => {
+export const ExpenseModal = ({ handleNewExpense, animateModal, expense }) => {
     const [name, setName] = useState('');
     const [amount, setAmount] = useState(0);
     const [category, setCategory] = useState('');
 
     const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        if (Object.keys(expense).length > 0) {
+            setName(expense.name);
+            setAmount(expense.amount);
+            setCategory(expense.category);
+        }
+    }, [expense]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,15 +33,15 @@ export const ExpenseModal = ({ handleNewExpense, animateModal }) => {
 
         setMessage('');
 
-        const expense = {
-            id: new Date().getTime(),
+        const newExpense = {
+            id: expense?.id || new Date().getTime(),
             date: Date.now(),
             name,
             amount: Number(amount),
             category,
         };
 
-        handleNewExpense(expense);
+        handleNewExpense(newExpense);
     };
 
     const handleClose = () => {
@@ -69,7 +77,7 @@ export const ExpenseModal = ({ handleNewExpense, animateModal }) => {
                     <label htmlFor="amount">Cantidad</label>
                     <input
                         value={amount}
-                        onChange={(e) => setAmount(e.target.value)}
+                        onChange={(e) => setAmount(Number(e.target.value))}
                         type="number"
                         id="amount"
                         placeholder="Ingresa la cantidad del gasto"
@@ -103,4 +111,5 @@ export const ExpenseModal = ({ handleNewExpense, animateModal }) => {
 ExpenseModal.propTypes = {
     handleNewExpense: PropTypes.func.isRequired,
     animateModal: PropTypes.bool.isRequired,
+    expense: PropTypes.object,
 };

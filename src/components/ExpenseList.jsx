@@ -1,7 +1,7 @@
 import { PropTypes } from 'prop-types';
 import { Expense } from './Expense';
 
-export const ExpenseList = ({ expenses }) => {
+export const ExpenseList = ({ expenses, setExpense, setExpenseDelete }) => {
     return (
         <div className="listado-gastos contenedor">
             <h2>
@@ -9,7 +9,12 @@ export const ExpenseList = ({ expenses }) => {
             </h2>
 
             {expenses.map((expense) => (
-                <Expense key={expense.id} expense={expense} />
+                <Expense
+                    key={expense.id}
+                    expense={expense}
+                    setExpense={setExpense}
+                    setExpenseDelete={setExpenseDelete}
+                />
             ))}
         </div>
     );
@@ -17,4 +22,6 @@ export const ExpenseList = ({ expenses }) => {
 
 ExpenseList.propTypes = {
     expenses: PropTypes.array.isRequired,
+    setExpense: PropTypes.func.isRequired,
+    setExpenseDelete: PropTypes.func.isRequired,
 };
